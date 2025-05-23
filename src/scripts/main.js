@@ -9,12 +9,16 @@ document.addEventListener('click', (e) => {
   const wallRect = wall.getBoundingClientRect();
 
   if (e.target.closest('.wall')) {
-    const vertShift = e.clientY - wallRect.top - wallBorder - spiderSize / 2;
-    const horizShift = e.clientX - wallRect.left - wallBorder - spiderSize / 2;
+    let vertShift = e.clientY - wallRect.top - wallBorder - spiderSize / 2;
+    let horizShift = e.clientX - wallRect.left - wallBorder - spiderSize / 2;
 
-    if (vertShift < wall.offsetLeft && horizShift < wall.offsetTop) {
-      spider.style.top = vertShift + 'px';
-      spider.style.left = horizShift + 'px';
-    }
+    const maxLeft = wall.clientWidth - spiderSize;
+    const maxTop = wall.clientHeight - spiderSize;
+
+    horizShift = Math.max(0, Math.min(horizShift, maxLeft));
+    vertShift = Math.max(0, Math.min(vertShift, maxTop));
+
+    spider.style.top = vertShift + 'px';
+    spider.style.left = horizShift + 'px';
   }
 });
